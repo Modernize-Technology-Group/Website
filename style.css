@@ -1,0 +1,134 @@
+/* Fonts */
+@font-face 
+{
+    font-family: LoraMedium;
+    src: url(./res/fonts/Lora-Medium.ttf);
+}
+@font-face 
+{
+    font-family: LoraSemiBold;
+    src: url(./res/fonts/Lora-SemiBold.ttf);
+}
+@font-face 
+{
+    font-family: LoraRegular;
+    src: url(./res/fonts/Lora-Regular.ttf);
+}
+@font-face 
+{
+    font-family: OrbitronBold;
+    src: url(./res/fonts/Orbitron-Bold.ttf);
+}
+@font-face 
+{
+    font-family: RobotoRegular;
+    src: url(./res/fonts/Roboto-Regular.ttf);
+}
+
+/* General body */
+body
+{
+    min-height: 100vh;
+    margin: 0; /* stops default 8px gap */
+    display: flex;
+    flex-direction: column;
+
+    font-family: RobotoRegular;
+    background-color: #0d0d0d;
+    color: #e7e7e7;
+}
+
+/* Footer */
+footer 
+{
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    background-color: #222f3e;
+
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    
+    font-family: LoraRegular;
+    font-size: 1em;
+}
+
+/* Main */
+main  
+{
+    flex: 1;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+    min-height: 70vh;
+}
+h1, h2 /*, h3, h4, h5, h6 */ /* h3+ mustn't be used */
+{
+    font-family: LoraMedium;
+}
+p
+{
+    margin-left: 0.5em;
+    font-size: 1.35em;
+    text-align: left;
+}
+a:link
+{
+    color: aqua;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: purple;
+    text-decoration: underline;
+}
+pre:has(code)
+{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.35em;
+    text-align: left;
+    max-width: fit-content;
+
+    border-radius: 12px;
+    overflow: hidden;
+}
+img, video, audio
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+
+    max-width: 700px;
+    border-radius: 12px;
+}
+
+/* Header */
+header
+{
+    width: 100%;
+    min-height: 2em;
+    padding-top: 0.5em;
+    background-color: #222f3e;
+
+    display: flex;
+    justify-content: space-around;
+    
+    font-family: LoraSemiBold;
+    font-size: 1.75em;
+}
+.header-logo, a.header-logo
+{
+    color: #a500ebff;
+    font-family: OrbitronBold;
+    text-decoration: none;
+}
+.header-button, a.header-button
+{
+    text-decoration: none;
+    color: #e7e7e7;
+}
