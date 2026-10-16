@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTG</title>
+    
+    <link rel="stylesheet" href="../../global/global.css">
+    <script defer src="../..//global/global.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
 
 <header>
     <a class="header-logo" href="../../index.html">MTG</a>
-    <a class="header-button" href="../About/index.html">About</a>
-    <a class="header-button" href="../Projects/index.html">Projects</a>
-    <a class="header-button" href="../Guides/index.html">Guides</a>
+    <a class="header-button" href="../about/index.html">About</a>
+    <a class="header-button" href="../projects/index.html">Projects</a>
+    <a class="header-button" href="../guides/index.html">Guides</a>
 </header>
 
 <main>
@@ -52,10 +55,16 @@
     </p>
 
     <pre><code class="language-c">
-#include &lt;stdsomething.h&gt;
+// 8-bit MBR bootloader in Rust:
+#include &lt;gcc.h&gt;
 
 int main(int argCount, const char******************** args)
 {
+    // Write "Hi!" to VGA
+    *((char*)0) = "H";
+    *((char*)1) = "i";
+    *((char*)2) = "!";
+    // Return UEFI bluetooth service GUID
     return (int)(0x47E3.2FF07p-34);
 }
     </code></pre>
@@ -78,27 +87,7 @@ int main(int argCount, const char******************** args)
     </p>
 </main>
 
-<footer>
-    © 2026 Modernize Technology Group. All rights reserved.
-</footer>
-
-
-
-<script>
-    // Set footer copyright to current year automatically
-    document.getElementsByTagName("footer")[0].textContent = 
-        "© " + new Date().getFullYear() + " Modernize Technology Group. All rights reserved."
-    
-    // Trim code
-    document.querySelectorAll('pre:has(code)').forEach(pre => {
-        const code = pre.querySelector('code');
-        if (code)
-            code.textContent = code.textContent.trim();
-    });
-
-    // Highlight code
-    hljs.highlightAll();
-</script>
+<footer></footer>
 
 </body>
 </html>

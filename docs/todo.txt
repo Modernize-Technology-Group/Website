@@ -1,6 +1,4 @@
 
-Add CSS for mobile
-
-Add a way to not have to copy paste boilerplate
-
 Add the actual Wiki and About pages
+
+Add a way to go back to main index.html on small screens
