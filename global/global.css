@@ -69,7 +69,7 @@ h1, h2 /*, h3, h4, h5, h6 */ /* h3+ mustn't be used */
 {
     font-family: LoraMedium;
 }
-p
+p, li
 {
     margin-left: 0.5em;
     font-size: 1.2em;

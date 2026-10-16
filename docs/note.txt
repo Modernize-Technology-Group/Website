@@ -1,3 +1,5 @@
 
 Question: Why doesn't the code use root paths instead of relative paths?
 Answer: SHITHUB PAGES DOESN'T SUPPORT THEM 🥰
+
+File names are in snake case (e.g. some_file.html)

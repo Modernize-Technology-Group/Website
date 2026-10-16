@@ -1,4 +1,4 @@
 
-Add the actual Wiki and About pages
+Add guides
 
 Add a way to go back to main index.html on small screens
