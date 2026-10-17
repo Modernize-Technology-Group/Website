@@ -1,0 +1,24 @@
+{"projects": [
+    {
+        "author": "Alex",
+        "title": "Disker",
+        "desc": [
+            "Highly portable cross-platform disk and disk image management program.",
+            "Work in progress.",
+            "Written in C17."
+        ],
+        "repo": "https://github.com/aldevex/Disker",
+        "date": "16/10/2026"
+    },
+    {
+        "author": "Rami",
+        "title": "Cryptography Project",
+        "desc": [
+            "Experimental cryptography library containing classical ciphers, modern symmetric ciphers, hashing, and asymmetric ciphers.",
+            "Doesn't require external dependencies. Uses its own custom arbitrary-precision arithmetic library (big-ar9am).",
+            "Written in C and has a Dart binding."
+        ],
+        "repo": "https://github.com/aldevex/Disker",
+        "date": "17/10/2026"
+    }
+]}

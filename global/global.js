@@ -16,15 +16,56 @@ if (footer) footer.textContent =
 
 
 
-// Trim code
-document.querySelectorAll("pre:has(code)").forEach(pre => {
-    const code = pre.querySelector("code");
-    if (code)
-        code.textContent = code.textContent.trim();
-});
+// - Surrounds <code> by <pre>
+// - If <code> has data-file attribute:
+//     - Adds the class "language-<file extension>" for highlightjs
+//     - Sets text content to code from specified file
+// - Trims the code
+async function processCodeTags()
+{
+    // Loop over code tags
+    const codeTagCollection = document.querySelectorAll('code');
+    for (const codeTag of codeTagCollection)
+    {
+        // Surround <code> by <pre>
+        const pre = document.createElement('pre');
+        codeTag.parentNode.insertBefore(pre, codeTag);
+        pre.appendChild(codeTag);
 
-// Highlight code
-hljs.highlightAll();
+        // If <code> has data-file attribute:
+        //   - Add the class "language-<file extension>" for highlightjs
+        //   - Set text content to code from specified file
+        const filePath = codeTag.dataset.file;
+        if (filePath)
+        {
+            const extension = filePath.split('.').pop();
+            // Adds the class "language-<file extension>" for highlightjs
+            codeTag.classList.add(`language-${extension}`);
+            // Set text content to code from specified file
+            try
+            {
+                const response = await fetch(filePath);
+                if (!response.ok)
+                    throw new Error('File not found');
+                else
+                {
+                    const codeText = await response.text();
+                    codeTag.textContent = codeText;
+                }
+            }
+            catch (error)
+            {
+                codeTag.textContent = `Failed to load code file: ${error.message}`;
+            }
+        }
+        // Trim code
+        codeTag.textContent = codeTag.textContent.trim();
+        // Highlight code
+        hljs.highlightElement(codeTag);
+    }
+}
+// Run when the page loads
+processCodeTags();
 
 
 

@@ -1,4 +1,19 @@
 
-Add guides
+Projects and guides:
+    Add sorting options (author, name, or date) (prototype code in projects/index.js)
 
-Add a way to go back to main index.html on small screens
+Mobile:
+    Add a way to go back to main index.html
+    Add a button that floats on top to jump back to the start of the page
+
+Misc:
+    Add CSS for buttons inline with <h2> to copy guide segment anchor links (URL#TagID)
+
+
+
+Guide: Unicode:
+    Add planes and blocks terms
+    Add UTF-16 encoding explanation in its section, its not TOO complex
+    Add encoding conversion code
+    Add notes on storing Unicode text and operating on it
+    Set guide list JSON

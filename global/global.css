@@ -2,27 +2,27 @@
 @font-face 
 {
     font-family: LoraMedium;
-    src: url(../res/fonts/Lora-Medium.ttf);
+    src: url(./res/fonts/Lora-Medium.ttf);
 }
 @font-face 
 {
     font-family: LoraSemiBold;
-    src: url(../res/fonts/Lora-SemiBold.ttf);
+    src: url(./res/fonts/Lora-SemiBold.ttf);
 }
 @font-face 
 {
     font-family: LoraRegular;
-    src: url(../res/fonts/Lora-Regular.ttf);
+    src: url(./res/fonts/Lora-Regular.ttf);
 }
 @font-face 
 {
     font-family: OrbitronBold;
-    src: url(../res/fonts/Orbitron-Bold.ttf);
+    src: url(./res/fonts/Orbitron-Bold.ttf);
 }
 @font-face 
 {
     font-family: RobotoRegular;
-    src: url(../res/fonts/Roboto-Regular.ttf);
+    src: url(./res/fonts/Roboto-Regular.ttf);
 }
 
 /* General body */
@@ -72,18 +72,29 @@ h1, h2 /*, h3, h4, h5, h6 */ /* h3+ mustn't be used */
 p, li
 {
     margin-left: 0.5em;
+    margin-right: 0.35em;
     font-size: 1.2em;
     text-align: left;
 }
 a:link
 {
-    color: aqua;
+    color: rgb(0, 209, 209);
     text-decoration: underline;
 }
 a:visited
 {
-    color: purple;
+    color: rgb(180, 0, 180);
     text-decoration: underline;
+}
+/* <a> inside any tag of class .contents */
+.contents a
+{
+    text-decoration: none;
+    color: #e7e7e7;
+}
+li
+{
+    margin-bottom: 0.4em;
 }
 pre:has(code)
 {
@@ -96,6 +107,24 @@ pre:has(code)
     border-radius: 12px;
     overflow: hidden;
 }
+
+table
+{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2em;
+    text-align: center;
+    max-width: fit-content;
+
+    border-radius: 5px;
+    overflow: hidden;
+}
+th, td
+{
+    border: 0.15em solid #e7e7e7;
+    padding: 0.5em;
+}
+
 img, video, audio
 {
     display: block;

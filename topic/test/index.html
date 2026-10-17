@@ -10,6 +10,14 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js"></script>
+    <script
+        defer
+        onload="renderMathInElement(document.body);"
+        src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js"
+    ></script>
 </head>
 <body>
 
@@ -24,6 +32,10 @@
     <h1>Testinggggggggggggggggggggg eeeeeeee</h1>
 
     <h2>Testing & Whatnot</h2>
+    
+    <p>Inline equation: \(c = \pm\sqrt{a^2 + b^2}\)</p>
+    <p>Big equation:</p>
+    <p>\[ \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2} \]</p>
 
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure autem quam harum vel maiores laudantium optio rem, odit ratione praesentium, quae commodi quasi! Vero, sit deserunt quisquam iure quas dolor.
@@ -54,29 +66,16 @@
         the eeeeeeeeeee
     </p>
 
-    <pre><code class="language-c">
-// 8-bit MBR bootloader in Rust:
-#include &lt;gcc.h&gt;
+    <code data-file="./res/code/rust.c"></code>
 
-int main(int argCount, const char******************** args)
-{
-    // Write "Hi!" to VGA
-    *((char*)0) = "H";
-    *((char*)1) = "i";
-    *((char*)2) = "!";
-    // Return UEFI bluetooth service GUID
-    return (int)(0x47E3.2FF07p-34);
-}
-    </code></pre>
+    <img src="./res/media/Disker SC.png" alt="">
 
-    <img src="../../res/media/Disker SC.png" alt="">
-
-    <audio controls src="../../res/media/there-be-treasure.mp3"></audio>
+    <audio controls src="./res/media/there-be-treasure.mp3"></audio>
     <p>
         Copyright notice 🤯: This audio isn't ours! I took it from some random site 🙀
     </p>
 
-    <video controls src="../../res/media/alps-mountains-sea-of-fog.mp4"></video>
+    <video controls src="./res/media/alps-mountains-sea-of-fog.mp4"></video>
     <p>
         Copyright notice 🤯: This video isn't ours! I took it from "adege" on pixabay.com 🙀
         Nice video adege 🫡
