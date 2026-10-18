@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guide Name</title>
+    <title>Unicode Guide</title>
     
     <link rel="stylesheet" href="../../../global/global.css">
     <script defer src="../../..//global/global.js"></script>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/obsidian.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
@@ -37,13 +37,13 @@
         <li><a href="#encoding-conversion">Conversion between Encoding Formats</a></li>
         <ul>
             <li><a href="#encoding-conversion-UTF-32-16">UTF-32 to UTF-16</a></li>
-            <li><a href="#encoding-conversion-UTF-32-8">UTF-32 to UTF-8</a></li>
             <li><a href="#encoding-conversion-UTF-16-32">UTF-16 to UTF-32</a></li>
-            <li><a href="#encoding-conversion-UTF-16-8">UTF-16 to UTF-8</a></li>
+            <li><a href="#encoding-conversion-UTF-32-8">UTF-32 to UTF-8</a></li>
             <li><a href="#encoding-conversion-UTF-8-32">UTF-8 to UTF-32</a></li>
+            <!-- <li><a href="#encoding-conversion-UTF-16-8">UTF-16 to UTF-8</a></li>
             <li><a href="#encoding-conversion-UTF-8-16">UTF-8 to UTF-16</a></li>
         </ul>
-        <li><a href="#storage-and-text-operations">Storage & Text Operations</a></li>
+        <li><a href="#text-storage-and-operations">Text Storage & Operations</a></li> -->
     </ul>
 
 
@@ -57,7 +57,7 @@
     <ol>
         <li>The terminology required to learn and use Unicode.</li>
         <li>The various actively used Unicode encoding formats.</li>
-        <li>The methods to convert between those formats.</li>
+        <li>The methods to encode in, and convert between those formats.</li>
         <li>How to manage Unicode data in general.</li>
     </ol>
     <p>
@@ -77,7 +77,7 @@
     <ul>
         <li>
             Encoding:
-            The method used to store data in computer memory.
+            The method used to store data in computer memory or to transmit it.
         </li>
         <li>
             Code point: 
@@ -104,6 +104,26 @@
             Grapheme cluster:
             A sequence of one or more code points that is handled as one displayed unit (e.g. a letter, an emoji 🤯).
         </li>
+        <li>
+            Planes and blocks:
+            Unicode is divided into 17 planes (the first being plane 0),
+            each plane is divided into blocks,
+            and each block contains a collection of code points for a specific task.
+            <br>
+            Most planes are not used and are reserved for future expansion.
+            <br>
+            The most notable planes are:
+        </li>
+        <ul>
+            <li>
+                The Basic Multilingual Plane (BMP, Plane 0): Ranges from U+0000 to U+FFFF.
+                Contains code points for commonly used languages.
+            </li>
+            <li>
+                The Supplementary Multilingual Plane (SMP, Plane 1), ranges from U+10000 to U+1FFFF.
+                Contains code points for uncommon and historic languages.
+            </li>
+        </ul>
     </ul>
 
 
@@ -113,7 +133,7 @@
 
 
     <h2 id="encoding-formats">Encoding Formats</h2>
-    <p>The currently used encoding formats are:</p>
+    <p>The commonly used encoding formats are:</p>
     <ul>
         <li>
             UTF-8:
@@ -133,14 +153,14 @@
         </li>
     </ul>
     <p>The guide will explain them in detail after the following list.</p>
-    <p>A few legacy Unicode encoding formats:</p>
+    <p>A few legacy Unicode encoding formats (<strong>not important</strong>):</p>
     <ul>
         <li>
             UTF-7: Uses a 7-bit code unit encoding
             where each code point value is either a standard 7-bit ASCII character
             (only if it has the same value as the ASCII character),
             or a Modified Base-64 number written textually in 7-bit ASCII surrounded by "+" and "-".
-            <br><br>
+            <br>
             For example, the text "café" would be written as "caf+AOk-".
             The character "+" can be encoded by writing "+-" or its UTF-7 base-64 value surrounded by "+" and "-".
         </li>
@@ -158,9 +178,9 @@
             Uses a 16-bit code unit encoding
             where each code point consists of <strong>a single 16-bit</strong> code unit
             with the exact same value.
+            <br>
             Back then, engineers assumed that 16-bits would be enough
             for the entirety of Unicode,
-            <br><br>
             however, they later realized that their assumption was wrong,
             and systems were already relying on the 16-bit USC-2 encoding,
             so the Unicode Consortium reserved a range of code point values
@@ -172,12 +192,6 @@
             Uses a 32-bit code unit encoding
             where each code point is one code unit
             with the exact same numeric value.
-            <br><br>
-            The only difference between UCS-4 and UTF-32
-            is that UCS-4 was designed for 31 bits to be used
-            (one bit out of 32 is reserved for signed integer compatibility),
-            while UTF-32 allows the use of 21 bits only for compatibility
-            with the code point range limit resulting from the UTF-16 pair system.
         </li>
     </ul>
     
@@ -191,8 +205,8 @@
         <br><br>
         UTF-32 is saved in little-endian or big-endian format,
         then called UTF-32LE or UTF-32BE.
-        When saving UTF-32 code points into persistent memory (e.g. as a file)
-        or transmitting over a network or other cases where the recipient cannot
+        When saving UTF-32 code points into persistent memory (e.g. as a file),
+        or transmitting over a network, or other cases where the recipient cannot
         reliably assume the endianness,
         <br>
         a Byte Order Mark (BOM) code point is recommended to be inserted at the start
@@ -200,7 +214,8 @@
         <br><br>
         The BOM code point is U+FEFF (integer 0x0000FEFF in UTF-32),
         if saved in a big-endian format its bytes would be {00, 00, FE, FF},
-        if saved in a little-endian format its bytes would be {FF, FE, 00, 00}.
+        if saved in a little-endian format its bytes would be {FF, FE, 00, 00},
+        and using these bytes a program can detect the endianness of the text.
         <br><br>
         There are other methods to detect UTF-32 endianness in dire situations,
         but they are workarounds and not solutions, the BOM should be used
@@ -217,14 +232,15 @@
         are reserved for the purpose mentioned next.
         <br><br>
         If the code point is above the BMP (starting from U+10000 and above)
-        it's encoded in a pair of two UTF-16 code units called a <strong>surrogate pair</strong>,
+        it's encoded as a pair of two UTF-16 code units called a <strong>surrogate pair</strong>,
         the first code unit being a <strong>high surrogate</strong>, whose value
         is in the range U+D800 to U+DBFF, and the second code unit being a <strong>low surrogate</strong>,
         whose value is in the range U+DC00 to U+DFFF.
-        <br><br>
-        A high surrogate code unit without an accompanying low surrogate after it,
-        or a low surrogate without a high surrogate before it, is invalid Unicode.
         <br>
+        Unpaired UTF-16 surrogates and raw UTF-8 and UTF-32 surrogate code points are invalid Unicode,
+        however, some programs like the Windows operating system allow their use
+        in specific circumstances.
+        <br><br>
         Specific algorithms mentioned later are used to encode and decode UTF-16 code points.
         <br><br>
         Just like UTF-32, UTF-16 is stored in a little-endian or big-endian format,
@@ -238,21 +254,27 @@
     <p>
         A UTF-8 encoded code point consists of one, two, three, or four 8-bit code units.
         <br>
-        UTF-8 shares the same first code unit values with 8-bit ASCII.
+        A UTF-8 code point is esentially
+        a big endian code point integer but with specific bit prefixes at the start of each byte.
+        <br>
+        A single-code-unit UTF-8 encoded code point shares the exact same values with 8-bit ASCII.
         <br><br>
-        The amount of code units used in one code point is signaled by a specific bit pattern in the first code unit.
+        The amount of code units used in one code point is signaled by a specific bit pattern in the leading (first) code unit.
+        Continuation code units contain the bit prefix pattern 10<sub>2</sub>.
+        The prefix patterns allow systems to easily differentiate ASCII from Unicode code point values above ASCII,
+        and to directly convert 8-bit ASCII text data to UTF-8.
         <br>
         In the following table, each four bits in binary (named with the same letter) correspond to one hexadecimal digit
-        in the encoded code point U+uvwxyz:
+        in the encoded code point <strong>U+uvwxyz</strong>:
     </p>
     <table style="text-align: left;">
         <tr>
             <th>First code point in range</th>
             <th>Last code point in range</th>
-            <th>1st byte</th>
-            <th>2nd byte</th>
-            <th>3rd byte</th>
-            <th>4th byte</th>
+            <th>1st code unit</th>
+            <th>2nd code unit</th>
+            <th>3rd code unit</th>
+            <th>4th code unit</th>
         </tr>
         <tr>
             <td>U+0000</td>
@@ -287,6 +309,7 @@
             <td>10yyzzzz</td>
         </tr>
     </table>
+    <p>UTF-8 also has a limit of 21 code point bits.</p>
     <p>Specific algorithms mentioned later are used to encode and decode UTF-8 code points.</p>
 
     <h2 id="encoding-formats-examples">Examples</h2>
@@ -301,12 +324,14 @@
         <li>In UTF-32, it's encoded as 0x0000062A.</li>
         <li>In UTF-16, it's encoded as 0x062A.</li>
         <li>
-            In UTF-8, it uses two code units, mapping it using the table above, "xyz" in hexadecimal equals "62A",
-            so mapping it to binary as {110-xxx-yy, 10-yy-zzzz}, the UTF-8 code units are {110-110-00, 10-10-1010}.
-            (The conversions to binary are
-            &nbsp; x = 6<sub>16</sub> = 110<sub>2</sub>,
-            &nbsp; y = 2<sub>16</sub> = 0010<sub>2</sub>,
-            &nbsp; z = A<sub>16</sub> = 1010<sub>2</sub>)
+            In UTF-8, it uses two code units, mapping it using the table above, the digits "xyz" in hexadecimal are "62A",
+            <br>
+            the conversions to binary are
+            x = 0x6 = 110<sub>2</sub>,
+            &nbsp; y = 0x2 = 0010<sub>2</sub>,
+            &nbsp; z = 0xA = 1010<sub>2</sub>.
+            Mapping it to binary as {110-xxx-yy, 10-yy-zzzz}, the UTF-8 code units are {110-110-00, 10-10-1010}
+            (in hexadecimal {0xD8, 0xAA} <sub>*0xD8 is a coincidental result not to be confused with the high surrogate code point U+D800*</sub>).
         </li>
     </ul>
     <p>The character "𒀶" is registered as U+12036:</p>
@@ -315,8 +340,7 @@
         <li>
             In UTF-16, it's encoded as a surrogate pair {0xD808, 0xDC36}.
             <br>
-            The UTF-16 encoding algorithm is too complex for a short explanation,
-            it will be displayed later in this document.
+            The UTF-16 surrogate pair encoding algorithm is explained later in this document.
         </li>
         <li>In UTF-8, it uses four code units, encoded as {0xF0, 0x92, 0x80, 0xB6}.</li>
     </ul>
@@ -329,7 +353,7 @@
 
     <h2 id="encoding-conversion">Conversion between Encoding Formats</h2>
     <p>
-        Saying "converting UTF-32" to UTF-16 or UTF-8 is practically the same
+        In this document, saying "converting UTF-32" to UTF-16 or UTF-8 has the the same meaning
         as saying "encoding a code point" in those two encodings,
         as UTF-32 uses 32-bit integers with the exact same value as code points.
         <br>
@@ -341,19 +365,140 @@
         <li>UTF-16 to UTF-32 and UTF-8.</li>
         <li>UTF-8 to UTF-32 and UTF-16.</li>
     </ul>
+    <p>
+        The code blocks below contain C functions that convert one code point only and with limited input validation,
+        the reader should implement their own algorithms to suit their goals.
+    </p>
 
     <h2 id="encoding-conversion-UTF-32-16">UTF-32 to UTF-16</h2>
-    <!-- <pre><code data="../../res/code/utf32_to_16.c"></code></pre> -->
-
-    <h2 id="encoding-conversion-UTF-32-8">UTF-32 to UTF-8</h2>
+    <p>
+        If the code point is in the BMP (from U+0000 up to U+FFFF), it's simply encoded as a 16-bit integer with the same value.
+        If the code point is outside the BMP (U+10000 and above), the following must be done to encode it as a UTF-16 surrogate pair:
+    </p>
+    <ul>
+        <li>
+            Subtract 0x10000 from the code point value, resulting in a minimum value of 0 and a maximum of 0xFFFFF, which fits in 20 bits.
+            The 20 bits are divided into two 10-bit segments.
+        </li>
+        <li>
+            The high segment gets prefixed by 110110<sub>2</sub> (or gets added to 0xD800), creating the 16-bit high surrogate
+            in the range 0xD800 to 0xDBFF. The high surrogate is the first code unit.
+        </li>
+        <li>
+            The the low segment gets prefixed by 110111<sub>2</sub> (or gets added to 0xDC00), creating the 16-bit low surrogate
+            in the range 0xDC00 to 0xDFFF. The low surrogate is the second code unit.
+        </li>
+    </ul>
+    <code data-file="./res/code/utf32_to_16.c"></code>
     
     <h2 id="encoding-conversion-UTF-16-32">UTF-16 to UTF-32</h2>
+    <p>
+        Decoding UTF-16 code points (or converting them to UTF-32) is the opposite of encoding:
+        If the code point is in the BMP (one UTF-16 code unit), it's simply expanded to 32-bits.
+        If the code point is encoded as a surrogate pair outside the BMP:
+    </p>
+    <ul>
+        <li>Extract the high 10-bit segment off the high surrogate (or subtract 0xD800 from it)</li>
+        <li>Extract the low 10-bit segment off the low surrogate (or subtract 0xDC00 from it)</li>
+        <li>Combine the two segments into one 20-bit integer.</li>
+        <li>Add 0x10000 to get a 32-bit integer (UTF-32)</li>
+    </ul>
+    <code data-file="./res/code/utf16_to_32.c"></code>
 
-    <h2 id="encoding-conversion-UTF-16-8">UTF-16 to UTF-8</h2>
-    
+    <h2 id="encoding-conversion-UTF-32-8">UTF-32 to UTF-8</h2>
+    <p>
+        The structure of a UTF-8 encoded code point is similar to the bytes
+        of a big-endian integer containing the code point value,
+        however, UTF-8 is a variable length encoding, and its code units contain specific bit prefixes
+        to signal their position in the code point.
+    </p>
+    <ul>
+        <li>
+            If the code point is in the range U+0000 to U+007F: It's simply encoded directly as an 8-bit integer
+            with the exact same value of the code point (maps directly to 8-bit ASCII).
+        </li>
+        <li>
+            If the code point is in the range U+0080 to U+07FF: It's encoded as two code units,
+            the leading (first) code unit starts with the prefix 110<sub>2</sub>
+            to signal the use of two code units for the current code point.
+        </li>
+        <li>
+            If the code point is in the range U+0800 to U+FFFF: It's encoded as three code units,
+            the leading (first) code unit starts with the prefix 1110<sub>2</sub>
+            to signal the use of three code units for the current code point.
+        </li>
+        <li>
+            If the code point is in the range U+010000 to U+10FFFF: It's encoded as four code units,
+            the leading (first) code unit starts with the prefix 11110<sub>2</sub>
+            to signal the use of four code units for the current code point.
+        </li>
+        <li>
+            Continuation code units start with the prefix 10<sub>2</sub>
+            to signal that the current code unit isn't a leading code unit.
+        </li>
+        <li>
+            The actual data bits aside from the prefix patterns are defined in the following table where
+            each four bits in binary (named with the same letter) correspond to one hexadecimal digit
+            in the encoded code point <strong>U+uvwxyz</strong>:
+        </li>
+    </ul>
+    <table style="text-align: left;">
+        <tr>
+            <th>First code point in range</th>
+            <th>Last code point in range</th>
+            <th>1st code unit</th>
+            <th>2nd code unit</th>
+            <th>3rd code unit</th>
+            <th>4th code unit</th>
+        </tr>
+        <tr>
+            <td>U+0000</td>
+            <td>U+007F</td>
+            <td>0yyyzzzz</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>U+0080</td>
+            <td>U+07FF</td>
+            <td>110xxxyy</td>
+            <td style="color: rgb(131, 230, 33);">10yyzzzz</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>U+0800</td>
+            <td>U+FFFF</td>
+            <td>1110wwww</td>
+            <td style="color: rgb(255, 65, 103);">10xxxxyy</td>
+            <td style="color: rgb(131, 230, 33);">10yyzzzz</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>U+010000</td>
+            <td>U+10FFFF</td>
+            <td>11110uvv</td>
+            <td>10vvwwww</td>
+            <td style="color: rgb(255, 65, 103);">10xxxxyy</td>
+            <td style="color: rgb(131, 230, 33);">10yyzzzz</td>
+        </tr>
+    </table>
+    <code data-file="./res/code/utf32_to_8.c"></code>
+
     <h2 id="encoding-conversion-UTF-8-32">UTF-8 to UTF-32</h2>
+    <p>
+        Decoding UTF-8 code points (or converting them to UTF-32) is the opposite of encoding:
+        The length of the UTF-8 code point is determined by the bit prefix pattern,
+        then the code point bits in each code unit are extracted into the resulting 32-bit integer (UTF-32).
+    </p>
+    <code data-file="./res/code/utf8_to_32.c"></code>
+<!-- 
+    <h2 id="encoding-conversion-UTF-16-8">UTF-16 to UTF-8</h2>
+    <code data-file="./res/code/utf16_to_8.c"></code>
 
     <h2 id="encoding-conversion-UTF-8-16">UTF-8 to UTF-16</h2>
+    <code data-file="./res/code/utf8_to_16.c"></code>
 
 
 
@@ -361,7 +506,9 @@
 
 
     
-    <h2 id="storage-and-text-operations">Storage & Text Operations</h2>
+    <h2 id="text-storage-and-operations">Text Storage & Operations</h2>
+ -->
+
 </main>
 
 <footer></footer>

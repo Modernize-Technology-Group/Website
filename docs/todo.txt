@@ -1,3 +1,5 @@
+# Global website todo
+# Local per-user todo files are in docs/todo/
 
 Projects and guides:
     Add sorting options (author, name, or date) (prototype code in projects/index.js)
@@ -8,12 +10,3 @@ Mobile:
 
 Misc:
     Add CSS for buttons inline with <h2> to copy guide segment anchor links (URL#TagID)
-
-
-
-Guide: Unicode:
-    Add planes and blocks terms
-    Add UTF-16 encoding explanation in its section, its not TOO complex
-    Add encoding conversion code
-    Add notes on storing Unicode text and operating on it
-    Set guide list JSON

@@ -1,0 +1,12 @@
+
+Guide: Unicode:
+    Add UTF-16 to UTF-8
+    Add UTF-8 to UTF-16
+    Add "text storage and operations"
+    Mention special characters like replacement
+    Mention CJK
+    Mention Bidi rendering
+    Mention localization
+    Mention whitespace characters and data files
+    Set guide list JSON
+    Review

@@ -3,18 +3,17 @@
         "author": "Alex",
         "title": "Unicode Guide",
         "desc": [
-            "Unicode guide explaining Unicode encodings and how to handle them.",
-            "Work in progress."
+            "Unicode guide explaining Unicode encodings and how to handle them."
         ],
-        "file": "",
-        "date": "17/10/2026"
+        "file": "unicode/index.html",
+        "date": "18/10/2026"
     },
 
     {
         "author": "Vule",
-        "title": "Global Illumination",
+        "title": "Global Illumination Guide",
         "desc": [
-            "Work in progress guide explaining global illumination in Computer Graphics"
+            "Work in progress guide explaining global illumination in Computer Graphics."
         ],
         "file": "",
         "date": "17/10/2026"

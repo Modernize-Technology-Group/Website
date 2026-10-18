@@ -1,0 +1,23 @@
+
+Question: Why not use root paths instead of relative paths?
+Answer: SHITHUB PAGES DOESN'T SUPPORT THEM 🥰
+
+File and directory names are in snake case (e.g. some_file.html)
+
+All HTML files must contain the following codes:
+- Only **ONE** footer defined as "<footer></footer>".
+
+Use the class "contents" in <ul> tags for content tables.
+
+For code use a <code> tag with either:
+- "language-LANGUAGE_NAME" class (e.g. "language-python") and inline code in the HTML file.
+        Indentation will be displayed.
+- "data-file" attribute set to the path of the file containing your code.
+        The file extension will imply the language.
+
+To add a guide, put your files under a unified name.
+    examples: "topic/guides/unicode/index.html", "topic/guides/graphics/gi/index.html",
+        "topic/guides/unicode/res/code/utf32_to_16.c", "topic/guides/graphics/res/media/gi_1.jpg"
+
+The way of writing your code may be anything readable if the code is yours,
+    however, if the code is global or by other users, it must be unified like the previously written code.
