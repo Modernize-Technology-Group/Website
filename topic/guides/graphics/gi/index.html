@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Illumination</title>
+
+    <link rel="stylesheet" href="../../../../global/global.css">
+    <script defer src="../../../..//global/global.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js"></script>
+    <script
+        defer
+        onload="renderMathInElement(document.body);"
+        src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js"
+    ></script>
+
+
+</head>
+<body>
+
+<header>
+    <a class="header-logo" href="../../../../index.html">MTG</a>
+    <a class="header-button" href="../../../about/index.html">About</a>
+    <a class="header-button" href="../../../projects/index.html">Projects</a>
+    <a class="header-button" href="../../../guides/index.html">Guides</a>
+</header>
+
+<main>
+
+<h1>Global Illumination Guide</h1>
+
+<h2>Contents</h2>
+<ul class="contents">
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#direct-illumination">Direct Illumination</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>Global Illumination (GI) is a term for a family of light rendering algorithms that account for light arriving at a surface from <strong>anywhere</strong> in the scene.</p>
+
+<p>Global Illumination combines 2 kinds of illumination, <strong>direct illumination</strong> and <strong>indirect illumination</strong>. In Direct Illumination, light travels from a light
+source to a surface. In Indirect Illumination light is bounced off 1 or more surfaces first before reaching the surface in question.</p>
+
+<p>In Physically Based Rendering (PBR), light transport is described using the <em>Rendering Equation</em> (1986) which <em>expresses the amount 
+of light leaving a point on a surface as the sum of emitted light and reflected light</em>. Every GI algorithm is in a way an attempt to approximate its solution</p>
+
+<p>
+\[
+L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) L_i(x, \omega_i) (\omega_i \cdot n) d\omega_i
+\]
+</p>
+
+<img src="res/rendering_equation.png" width=506 height=243>
+
+<p>Where:</p>
+<ul>
+  <li>\(x\) : A point on a surface.</li>
+  <li>\(\Omega\) : Unit hemisphere centered at normal \(n\) over point \(x\).</li>
+  <li>\(\omega_o\) : Outgoing direction of light.</li>
+  <li>\(\omega_i\) : Incoming direction of light.</li>
+  <li>\(n\) : The surface normal vector at point \(x\).</li>
+  <li>\(L_o(x, \omega_o)\) : Total radiance leaving point \(x\) along direction \(\omega_o\).</li>
+  <li>\(L_e(x, \omega_o)\) : Radiance emitted by the surface itself at \(x\) along direction \(\omega_o\).</li>
+  <li>\(f_r(x, \omega_i, \omega_o)\) : Surface <em>Bidirectional Reflectance Distribution Function</em> (BRDF), describing the light arriving from direction \(\omega_i\) that is reflected toward \(\omega_o\).</li>
+  <li>\(L_i(x, \omega_i)\) : Incoming Radiance arriving at point \(x\) from direction \(\omega_i\).</li>
+  <li>\((\omega_i \cdot n)\) : Cosine term (\(\cos \theta\)) between the incoming light direction and the surface normal.</li>
+  <li>\(d\omega_i\) : Differential angle around direction \(\omega_i\).</li>
+</ul>
+
+<p>Looking at the equation, \(L_o\) depends on \(L_i\) but light arriving at point \(x\) from direction \(\omega_i\) must have been emitted or reflected by some other point \(x'\) in the scene:</p>
+<p>
+\[
+L_i(x, \omega_i) = L_o(x', -\omega_i)
+\]
+</p>
+
+<p>To compute a color of a single pixel you must know the color of every surface illumination it, which depends on every surface illuminating them. Because of this the equation is <strong>recursive</strong> and has
+<strong>no closed form solution</strong>.
+</p>
+
+<div class="comparison-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 2rem 0;">
+
+  <figure style="flex: 1 1 300px; max-width: 480px; margin: 0; text-align: center;">
+    <img src="res/Direct_lighting.png" alt="Direct lighting only" style="width: 100%; height: auto; border-radius: 4px; display: block;">
+    <figcaption style="font-size: 0.8rem; color: #555; margin-top: 8px; line-height: 1.4;">
+      <strong>Direct Lighting Only</strong><br>
+      By <a href="//commons.wikimedia.org/wiki/User:Barahag" title="User:Barahag">Barahag</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=88541991">Link</a>
+    </figcaption>
+  </figure>
+
+  <figure style="flex: 1 1 300px; max-width: 480px; margin: 0; text-align: center;">
+    <img src="res/Global_illumination.png" alt="Global illumination rendering" style="width: 100%; height: auto; border-radius: 4px; display: block;">
+    <figcaption style="font-size: 0.8rem; color: #555; margin-top: 8px; line-height: 1.4;">
+      <strong>Global Illumination</strong><br>
+      By <a href="//commons.wikimedia.org/wiki/User:Barahag" title="User:Barahag">Barahag</a> - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=88540888">Link</a>
+    </figcaption>
+  </figure>
+
+</div>
+
+<h2 id="direct-illumination">Direct Illumination</h2>
+
+<p>Direct illumination computes light that travels in an unobstructed straight line from an emitter (eg. light source) directly to a surface and reflects toward the observer. This represents a 
+<strong>single bounce</strong> of light transport.</p>
+
+<p>Instead of integrating incoming light over the entire hemisphere \(\Omega\), DI only needs to evaluate the light arriving from known emitters. To achieve this we can use a binary visibility function
+\(V(x, x')\) which will tell us if the path between surface point \(x\) and a point on the light source \(x'\) is blocked by something: </p>
+
+<p>
+\[
+V(x, x') =
+\begin{cases}
+1 & \text{if } x \text{ and } x' \text{ are unobstructed} \\
+0 & \text{ if an occluder blocks them}
+\end{cases}
+\]
+</p>
+
+<p>You would ideally evaluate this using a shadow map or by testing a shadow ray, you can either get hard or soft shadows.
+Hard shadows are caused when a light has 0 surface area and visibility is binary while soft shadows are caused when a light lights up a finite space \(A_l\)
+and an occluder may only block some of the light, this gives you 2 different shadow regions</p>
+
+<p>
+\[
+V_{\text{soft}}(x) = \frac{1}{|A|} \int_{A} V(x, x') dA
+\]
+</p>
+<ul>
+    <li>Umbra (V = 0): Region where light source is completely occluded.</li>
+    <li>Penumbra (0 < V < 1): Region where light source is partially occluded.</li>
+</ul>
+
+<img src="res/visibility.png" width=436 height=412>
+
+<p>If visibility is obstructed we receive no direct illumination and this is how shadows are formed (image above). Instead of integrating over the
+full hemisphere \(\Omega\) we can only compute light that comes from emitter surfaces \(A_l\) by changing from differential angle \(d\omega_i\) to differential
+surface area on lights \(dA\)</p>
+
+<p>
+\[
+d\omega_i = \frac{n' \cdot (-\omega_i)}{\|x' - x\|^2} dA
+\]
+</p>
+
+<p>If we substitute this into the rendering equation we will get the area formula of direct illumination: </p>
+<p>
+\[
+L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{A_l} f_r(x, \omega_i, \omega_o) L_e(x', -\omega_i) V(x, x') \frac{(n \cdot \omega_i)(n' \cdot -\omega_i)}{\|x' - x\|^2} dA
+\]
+</p>
+
+<img src="res/integraloverA.png" width=515 height=330>
+
+<p>Where:</p>
+<ul>
+  <li>\(A_l\) : Total surface area of all light emitters in the scene.</li>
+  <li>\(x'\) : A point on the surface of an emitter.</li>
+  <li>\(n'\) : The surface normal vector at point \(x'\) on the light source.</li>
+  <li>\(\|x' - x\|^2\) : Squared Euclidean distance between surface point \(x\) and emitter point \(x'\).</li>
+  <li>\(L_e(x', -\omega_i)\) : Radiance emitted by the light source at \(x'\) in the direction of surface point \(x\).</li>
+  <li>\(V(x, x')\) : Binary visibility function.</li>
+  <li>\((n \cdot \omega_i)\) : Cosine of the angle between incoming light and the surface normal at \(x\).</li>
+  <li>\((n' \cdot -\omega_i)\) : Cosine of the angle between the emitter normal and the direction toward \(x\).</li>
+  <li>\(dA\) : Differential surface area element on the light source.</li>
+</ul>
+
+<p>Most games use ideal analytical lights such as point, spot and directional lights instead of geometric meshes. Because these light sources act as a dirac delta distribution we can
+simplify the integral further into a sum over all active lights</p>
+
+<p>
+\[
+L_o(x, \omega_o) = L_e(x, \omega_o) + \sum_{k=1}^{N} f_r(x, l_k, \omega_o) C_k V(x, x_k) \max(0, n \cdot l_k) f_a(d_k)
+\]
+</p>
+
+<p>Where:</p>
+<ul>
+  <li>\(N\) : Total number of analytical light sources affecting the surface.</li>
+  <li>\(k\) : Index of the current light source.</li>
+  <li>\(l_k\) : Normalized unit direction vector pointing from surface point \(x\) toward light \(k\).</li>
+  <li>\(C_k\) : Color and radiant intensity of light source \(k\).</li>
+  <li>\(x_k\) : Position of light source \(k\) in world space.</li>
+  <li>\(V(x, x_k)\) : Visibility factor for light \(k\).</li>
+  <li>\(\max(0, n \cdot l_k)\) : Clamped cosine term so surfaces facing away from the light receive 0 illumination.</li>
+  <li>\(d_k\) : Distance from surface point \(x\) to light position \(x_k\) (\(\|x_k - x\|\)).</li>
+  <li>\(f_a(d_k)\) : Distance attenuation function.</li>
+</ul>
+
+<p>the terms \(l_k\), \(d_k\), &amp; \(f_a(d_k)\) change depending on the light type, common ones are: </p>
+<ul>
+  <li>
+    <strong>Directional Light:</strong> Is a light source infinitely far away and the rays are parallel so the direction \(l_k\) is constant across the entire scene and there is no position \(x_k\) and there is no distance attenuation (\(f_a(d_k) = 1\)).
+  </li>
+  <li>
+    <strong>Point Light:</strong> Emits light omnidirectionally from a position \(x_k\). The light vector is \(l_k = \frac{x_k - x}{\|x_k - x\|}\), and attenuation follows the inverse square law \(f_a(d_k) = \frac{1}{d_k^2}\).
+  </li>
+  <li>
+    <strong>Spotlight:</strong> A point light constrained to a cone direction (cone light) It multiplies the inverse square distance attenuation by a falloff term:
+    \[
+    f_a(d_k) = \frac{1}{d_k^2} \cdot \text{clamp}\left(\frac{\cos \theta - \cos \theta_{\text{outer}}}{\cos \theta_{\text{inner}} - \cos \theta_{\text{outer}}}, 0, 1\right)
+    \]
+    where \(\cos \theta = -l_k \cdot s_k\), \(s_k\) is the normalized cone vector of the light &amp; \(-l_k\) is the unit vector pointing from the light toward the surface point \(x - x_k\)
+  </li>
+</ul>
+
+<p>Limitations of Direct Illumination are very easy to notice in indoor scenes or scenes with complex light transport. DI cannot
+account for light that bounces off other surfaces so it misses indirect illumination, color bleeding and ambient (indirect) shadows and
+leaving areas with no light pitch black.</p>
+
+</main>
+
+<footer></footer>
+
+</body>
+</html>
