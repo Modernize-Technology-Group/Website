@@ -5,6 +5,7 @@ Projects and guides:
     Add sorting options (author, name, or date) (prototype code in projects/index.js)
 
 Mobile:
+    Fix tables and latex equations overflow screen
     Add a way to go back to main index.html
     Add a button that floats on top to jump back to the start of the page
 

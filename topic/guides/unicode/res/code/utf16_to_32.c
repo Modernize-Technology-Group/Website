@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdint.h>
 
 // Converts the UTF-16 code point in "src" to UTF-32 in "dst"
