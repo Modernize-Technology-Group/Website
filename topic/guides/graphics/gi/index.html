@@ -38,6 +38,7 @@
 <ul class="contents">
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#direct-illumination">Direct Illumination</a></li>
+    <li><a href="#indirect-illumination">Indirect Illumination</a></li>
 </ul>
 
 <h2 id="introduction">Introduction</h2>
@@ -211,6 +212,180 @@ L_o(x, \omega_o) = L_e(x, \omega_o) + \sum_{k=1}^{N} f_r(x, l_k, \omega_o) C_k V
 <p>Limitations of Direct Illumination are very easy to notice in indoor scenes or scenes with complex light transport. DI cannot
 account for light that bounces off other surfaces so it misses indirect illumination, color bleeding and ambient (indirect) shadows and
 leaving areas with no light pitch black.</p>
+
+<h2 id="indirect-illumination">Indirect Illumination</h2>
+<p>Indirect Illumination accounts for all light arriving at a surface after it was bounced off <strong>1 or more other surfaces</strong> before reaching the POI. Unlike DI, indirect illumination
+provides ambient lighting, contact shadows, color bleeding, caustics, glossy reflections. Because GI is made of direct and indirect light we can split \(L_i(x, \omega_i)\) into:</p>
+
+<p>
+\[
+L_i(x,\omega_i) = L_i^{\text{direct}}(x, \omega_i) + L_i^{\text{indirect}}(x, \omega_i)
+\]
+</p>
+
+<p>Because in vacuum radiance travels along straight lines and because of that, radiance at point \(x\) from direction \(\omega_i\) must equal the
+    outgoing radiance from the nearest visible surface point in the opposite direction:
+</p>
+
+<p>
+\[
+L_i(x, \omega_i) = L_o(x', -\omega_i)
+\]
+</p>
+
+<p>Where: </p>
+<ul>
+  <li>\(x' = \text{raycast}(x, \omega_i)\) : First surface intersection along the ray at \(x\) in dir \(\omega_i\)</li>
+</ul>
+
+<img src="res/radiance-transfer.png">
+
+<p>substituting this back into the rendering equation we get: </p>
+<p>
+\[
+L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) L_o(x', -\omega_i) (n \cdot \omega_i) d\omega_i
+\]
+</p>
+
+<p>Mathematically this is a <em>Fredholm integral equations of the second kind</em> since we have our unknown (\(L_o\)) appearing both inside
+and outside of the integral. If we let \(L\) and \(L_e\) be the total emitted radiance distributions across all surfaces &amp; directions we can define
+the linear <strong>light transport operator</strong> \(\mathbf{K}\) which transports (propagates) radiance from 1 surface bounce to the next</p>
+
+<p>
+\[
+(\mathbf{K} h)(x, \omega_o) = \int_{\Omega} f_r(x, \omega_i, \omega_o) h(x', -\omega_i) (n \cdot \omega_i) d\omega_i
+\]
+</p>
+
+<p>We can further simplify the rendering equation: </p>
+<p>
+\[
+L = L_e + \mathbf{K}L
+\]
+</p>
+
+<p>taking the identity operator \(\mathbf{I}\) we can rearrange it into:</p>
+<p>
+\[
+(\mathbf{I} - \mathbf{K})L = L_e \implies L = (\mathbf{I} - \mathbf{K})^{-1} L_e
+\]
+</p>
+
+<p>In the real world materials absorb some light during reflection and the surface reflectance is limited by energy conservation
+(\(\int_\Omega f_r (n \cdot \omega_i) d\omega_i \le 1\)). As long as there is any non 0 absorption in the scene the spectral radius of the transport
+satisfies \(\rho(\mathbf{K}) < 1\)</p>
+
+<p>This allows the inverse operator \((\mathbf{I} - \mathbf{K})^{-1}\) to be expanded into a <em>Neumann series</em></p>
+<p>
+\[
+(\mathbf{I} - \mathbf{K})^{-1} = \sum_{m=0}^{\infty} \mathbf{K}^m = \mathbf{I} + \mathbf{K} + \mathbf{K}^2 + \mathbf{K}^3 + \dots
+\]
+</p>
+
+<p>Applying this series to emitted light \(L_e\) we get infinite bounce of light transport: </p>
+<p>
+\[
+L = L_e + \mathbf{K}L_e + \mathbf{K}^2 L_e + \mathbf{K}^3 L_e + \dots = \sum_{m=0}^{\infty} \mathbf{K}^m L_e
+\]
+</p>
+
+<ul>
+  <li>\(L_e\) (0 bounces): Self emission (radiance directly emitted by light sources toward the camera).</li>
+  <li>\(\mathbf{K}L_e\) (1 bounce): <em><a href="#direct-illumination">Direct Illumination</a></em></li>
+  <li>\(\mathbf{K}^2 L_e\) (2 bounces): \(1^\text{st}\) order indirect illumination (light leaving an emitter &amp; bouncing off surface \(A\), then bouncing off surface \(B\) and into the camera).</li>
+  <li>\(\mathbf{K}^m L_e\) (\(m \ge 2\) bounces): Higher order indirect illumination.</li>
+</ul>
+
+<img src="res/bounces-scary.png">
+
+<p>Because of this, indirect illumination is defined as:</p>
+<p>
+\[
+L_{\text{indirect}} = \sum_{m=2}^{\infty} \mathbf{K}^m L_e = \mathbf{K}(L - L_e)
+\]
+</p>
+
+<p>Because \(\|\mathbf{K}\| < 1\) each bounce carries less and less energy (\(\|\mathbf{K}^{m+1} L_e\| < \|\mathbf{K}^m L_e\|\)). In typical scenes most of the indirect energy is concentrated between 2 and 4 bounces, while
+more complex scenes might need more bounces before it converges</p>
+
+<p>Evaluating recursive integrals over hemispheres (\(\Omega\)) obscures the global behaviour of indirect light therefore we can use a modified version of the rendering equation which instead of a directional recursion it uses
+an integral over the path space \(\mathcal{P}\) &amp; instead of tracing light bounce by bounce we can consider an entire light path \(\bar{x}\) of length \(k\) connecting a point on an emitter \(x_0\) to the viewer \(x_k\) across \(k-1\) bounces: </p>
+
+
+<p>
+\[
+\bar{x} = x_0 \leftrightarrow x_1 \leftrightarrow x_2 \leftrightarrow \dots \leftrightarrow x_k
+\]
+</p>
+
+<p>
+Measurement \(I\) (pixel radiance) can be written as an integral over the space \(\mathcal{P}\) of all possible paths of all lengths:
+</p>
+<p>
+\[
+I = \int_{\mathcal{P}} f(\bar{x}) d\mu(\bar{x}) = \sum_{k=1}^{\infty} \int_{\mathcal{M}^k} f(x_0, x_1, \dots, x_k) \, dA(x_0) \, dA(x_1) \dots dA(x_k)
+\]
+</p>
+
+<p>Where: </p>
+<ul>
+  <li>\(\mathcal{M}\) : manifold of all scene surfaces.</li>
+  <li>\(dA\) : surface area.</li>
+  <li>\(f(\bar{x})\) : path contribution function</li>
+</ul>
+
+<p>
+\[
+f(\bar{x}) = L_e(x_0 \to x_1) \left[ \prod_{i=1}^{k-1} f_r(x_{i-1} \to x_i \to x_{i+1}) G(x_{i-1}, x_i) \right] G(x_{k-1}, x_k) W_e(x_{k-1} \to x_k)
+\]
+</p>
+
+<p>Here \(W_e\) is the <em>sensitivity function</em> of the viewer and \(G(x, y)\) is the geometric throughput term: </p>
+<p>
+\[
+G(x, y) = V(x, y) \frac{\cos\theta_x \cos\theta_y}{\|x - y\|^2}
+\]
+</p>
+
+<p>Heckberts Light Path Notation: </p>
+<ul>
+  <li>L (Light): Light source or emitter where photons originate.</li>
+  <li>E (Eye) : Viewer for example camera.</li>
+  <li>D (Diffuse) : A matte surface interaction that scatters light omnidirectionally over the hemisphere.</li>
+  <li>S (Specular) : A perfectly smooth reflection or refraction along a single ideal direction.</li>
+  <li>G (Glossy) : A rough specular interaction that scatters light into a focused directional lobe between D and S.</li>
+</ul>
+
+<p>There are 4 complex phenomenas of indirect lighting that appear commonly: </p>
+
+<p><strong>Diffuse Interreflection (\(L D D^+ E\))</strong> is a light bouncing between matte surfaces, because the Lambertian BRDF if constant (\(f_r = \frac{\rho}{\pi}\)), the integration acts as a spatial and angular filter which causes diffuse light to vary slowly across geometry
+making it low frequency in nature. (image below)</p>
+
+<img src="res/diffuse-interreflection.png" width=458 height=380>
+
+<br>
+
+<p><strong>Color Bleeding</strong> is a result of multiple diffuse bounces, in the path throughput term, the surface albedos are multiplied spectrally across wavelength bands</p>
+<p>
+\[
+\rho_{\text{final}}(\lambda) = \rho_1(\lambda) \cdot \rho_2(\lambda) \dots \rho_k(\lambda)
+\]
+</p>
+<p>If a white floor is illuminated by indirect light from a red wall, the red color will "bleed" onto the white floor (image below)</p>
+
+<img src="res/color-bleed.png" width=470 height=320>
+
+<br>
+
+<p><strong>Caustics (\(L S^+ D E\))</strong> is light concentraded by 1 or more specular reflections or refractions onto a diffuse surface, this focuses the light into a very small point onto the surface (image below)</p>
+
+<img src="res/caustics.png" width=490 height=390>
+
+<br>
+
+<p><strong>Specular (Glossy) chains (\(L S^+ S E\))</strong> means "reflections of reflections", like a room made of mirrors (image below).
+
+<img src="res/reflections.png" width=445 height=350>
 
 </main>
 
