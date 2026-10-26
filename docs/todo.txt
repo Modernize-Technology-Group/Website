@@ -10,4 +10,5 @@ Mobile:
     Add a button that floats on top to jump back to the start of the page
 
 Misc:
+    Make some URLs open a second tab
     Add CSS for buttons inline with <h2> to copy guide segment anchor links (URL#TagID)

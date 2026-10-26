@@ -18,7 +18,7 @@
             "Doesn't require external dependencies. Uses its own custom arbitrary-precision arithmetic library (big-ar9am).",
             "Written in C and has a Dart binding."
         ],
-        "repo": "https://github.com/aldevex/Disker",
+        "repo": "https://github.com/RamiBrahimi-c/cryptography-library",
         "date": "17/10/2026"
     }
 ]}

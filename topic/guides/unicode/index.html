@@ -41,9 +41,9 @@
             <li><a href="#encoding-conversion-UTF-32-8">UTF-32 to UTF-8</a></li>
             <li><a href="#encoding-conversion-UTF-8-32">UTF-8 to UTF-32</a></li>
             <!-- <li><a href="#encoding-conversion-UTF-16-8">UTF-16 to UTF-8</a></li>
-            <li><a href="#encoding-conversion-UTF-8-16">UTF-8 to UTF-16</a></li>
+            <li><a href="#encoding-conversion-UTF-8-16">UTF-8 to UTF-16</a></li> -->
         </ul>
-        <li><a href="#text-storage-and-operations">Text Storage & Operations</a></li> -->
+        <!-- <li><a href="#text-storage-and-operations">Text Storage & Operations</a></li> -->
     </ul>
 
 
@@ -366,8 +366,9 @@
         <li>UTF-8 to UTF-32 and UTF-16.</li>
     </ul>
     <p>
-        The code blocks below contain C functions that convert one code point only and with limited input validation,
-        the reader should implement their own algorithms to suit their goals.
+        The code blocks below contain C functions that convert one code point only and with limited input validation
+        in native platform endianness,
+        the reader should implement their own algorithms that suit their goals.
     </p>
 
     <h2 id="encoding-conversion-UTF-32-16">UTF-32 to UTF-16</h2>

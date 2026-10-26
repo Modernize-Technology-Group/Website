@@ -8,5 +8,6 @@ Guide: Unicode:
     Mention Bidi rendering
     Mention localization
     Mention whitespace characters and data files
+    Add ASCII references and more code point examples
     Set guide list JSON
     Review
