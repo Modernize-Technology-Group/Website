@@ -1,5 +1,6 @@
 
 Guide: Unicode:
+    Add ASCII & other old encoding references and more code point examples
     Add UTF-16 to UTF-8
     Add UTF-8 to UTF-16
     Add "text storage and operations"
@@ -8,6 +9,4 @@ Guide: Unicode:
     Mention Bidi rendering
     Mention localization
     Mention whitespace characters and data files
-    Add ASCII references and more code point examples
-    Set guide list JSON
     Review

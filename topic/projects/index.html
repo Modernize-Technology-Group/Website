@@ -6,7 +6,7 @@
     <title>Projects</title>
     
     <link rel="stylesheet" href="../../global/global.css">
-    <script defer src="../..//global/global.js"></script>
+    <script type="module" defer src="../..//global/global.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -22,11 +22,26 @@
 
 <main>
     <h1>Projects</h1>
-    
     <h2>Projects by MTG or its Members</h2>
-    <ul id="project-list"></ul>
-    <!-- Project list handling code -->
-    <script src="./index.js"></script>
+
+    <p>Sort by:</p>
+    <select id="sort-source">
+        <option value="date" selected>Date</option>
+        <option value="title">Title</option>
+        <option value="author">Author</option>
+    </select>
+    <select id="sort-ascending">
+        <option value="true">Ascending</option>
+        <option value="false" selected>Descending</option>
+    </select>
+
+    <ul id="json-list"></ul>
+    <script type="module">
+        import { loadList, sortList } from "../../global/lists.js";
+        loadList("./index.json", "repository");
+        document.getElementById("sort-source").addEventListener("change", sortList);
+        document.getElementById("sort-ascending").addEventListener("change", sortList);
+    </script>
 </main>
 
 <footer></footer>

@@ -14,8 +14,6 @@ const footer = document.querySelector('footer')
 if (footer) footer.textContent = 
     "© " + new Date().getFullYear() + " Modernize Technology Group. All rights reserved.";
 
-
-
 // - Surrounds <code> by <pre>
 // - If <code> has data-file attribute:
 //     - Adds the class "language-<file extension>" for highlightjs

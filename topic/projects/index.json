@@ -1,4 +1,4 @@
-{"projects": [
+{"list": [
     {
         "author": "Alex",
         "title": "Disker",
@@ -7,7 +7,7 @@
             "Work in progress.",
             "Written in C17."
         ],
-        "repo": "https://github.com/aldevex/Disker",
+        "url": "https://github.com/aldevex/Disker",
         "date": "16/10/2026"
     },
     {
@@ -18,7 +18,7 @@
             "Doesn't require external dependencies. Uses its own custom arbitrary-precision arithmetic library (big-ar9am).",
             "Written in C and has a Dart binding."
         ],
-        "repo": "https://github.com/RamiBrahimi-c/cryptography-library",
+        "url": "https://github.com/RamiBrahimi-c/cryptography-library",
         "date": "17/10/2026"
     }
 ]}

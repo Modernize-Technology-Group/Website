@@ -1,14 +1,10 @@
 # Global website todo
 # Local per-user todo files are in docs/todo/
 
-Projects and guides:
-    Add sorting options (author, name, or date) (prototype code in projects/index.js)
-
 Mobile:
     Fix tables and latex equations overflow screen
     Add a way to go back to main index.html
     Add a button that floats on top to jump back to the start of the page
 
 Misc:
-    Make some URLs open a second tab
     Add CSS for buttons inline with <h2> to copy guide segment anchor links (URL#TagID)
