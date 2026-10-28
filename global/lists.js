@@ -1,11 +1,13 @@
 
 let globalList = [];
 let globalTextAfterTitleURL = "";
+let globalBoolOpenInNewTab = true;
 
 // Function to load guide/project list from JSON
-export function loadList(filePath, textAfterTitleURL)
+export function loadList(filePath, textAfterTitleURL, boolOpenInNewTab)
 {
     globalTextAfterTitleURL = textAfterTitleURL;
+    globalBoolOpenInNewTab = boolOpenInNewTab;
     fetch(filePath)
     .then(response => response.json())
     .then(data => {
@@ -53,8 +55,8 @@ export function sortList()
             valB = new Date(yearB, monthB - 1, dayB).getTime();
         }
         // Compare values
-        if (valA < valB) return ascending === "true" ? -1 : 1;
-        else if (valA > valB) return ascending === "true" ? 1 : -1;
+        if (valA < valB) return ascending === "true"? -1 : 1;
+        else if (valA > valB) return ascending === "true"? 1 : -1;
         else return 0;
     });
 
@@ -88,10 +90,11 @@ export function sortList()
         const p = document.createElement("p");
         // Set <p> EMPTY description <span> and url <a>
         // The code style="white-space: pre-line;" is for html to respect "\n" in description string
+        const target = globalBoolOpenInNewTab == true? "_blank" : "_self";
         p.innerHTML = `
             <span style="white-space: pre-line;"></span>
             <br>
-            <a href="${entry.url}" target="_blank"></a>.
+            <a href="${entry.url}" target="${target}"></a>.
         `;
         // Set <p> description <span> text
         let descText = "";

@@ -82,6 +82,7 @@ select
     margin-right: 0.35em;
     font-size: 1.2em;
     text-align: left;
+    border: 1px, solid, #e7e7e7;
     min-width: 25%;
     padding-left: 5%;
     padding-right: 0.2em;
@@ -89,6 +90,7 @@ select
     padding-bottom: 0.2em;
     background-color: #1c4069;
     color: #e7e7e7;
+    border-radius: 12px;
 }
 a:link
 {

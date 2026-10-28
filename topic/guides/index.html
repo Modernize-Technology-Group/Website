@@ -38,7 +38,7 @@
     <ul id="json-list"></ul>
     <script type="module">
         import { loadList, sortList } from "../../global/lists.js";
-        loadList("./index.json", "repository");
+        loadList("./index.json", "page", false);
         document.getElementById("sort-source").addEventListener("change", sortList);
         document.getElementById("sort-ascending").addEventListener("change", sortList);
     </script>
