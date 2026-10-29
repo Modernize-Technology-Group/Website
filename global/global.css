@@ -34,7 +34,7 @@ body
     flex-direction: column;
 
     font-family: RobotoRegular;
-    background-color: #0d0d0d;
+    background-color: #191919;
     color: #e7e7e7;
     overflow-wrap: break-word;
 }
@@ -44,7 +44,7 @@ footer
 {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    background-color: #222f3e;
+    background-color: #2B325D;
 
     display: flex;
     justify-content: center;
@@ -82,7 +82,7 @@ select
     margin-right: 0.35em;
     font-size: 1.2em;
     text-align: left;
-    border: 1px, solid, #e7e7e7;
+    border: none;
     min-width: 25%;
     padding-left: 5%;
     padding-right: 0.2em;
@@ -177,7 +177,7 @@ header
     width: 100%;
     min-height: 2em;
     padding-top: 0.5em;
-    background-color: #222f3e;
+    background-color: #2B325D;
 
     display: flex;
     justify-content: space-around;

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../../../global/global.css">
     <script defer src="../../../..//global/global.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/nord.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/obsidian.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css">
@@ -41,7 +41,10 @@
     <li><a href="#indirect-illumination">Indirect Illumination</a></li>
 </ul>
 
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">
+  Introduction
+  <button class="anchor-copy" data-anchor="introduction">#</button>
+</h2>
 <p>Global Illumination (GI) is a term for a family of light rendering algorithms that account for light arriving at a surface from <strong>anywhere</strong> in the scene.</p>
 
 <p>Global Illumination combines 2 kinds of illumination, <strong>direct illumination</strong> and <strong>indirect illumination</strong>. In Direct Illumination, light travels from a light
@@ -104,7 +107,10 @@ L_i(x, \omega_i) = L_o(x', -\omega_i)
 
 </div>
 
-<h2 id="direct-illumination">Direct Illumination</h2>
+<h2 id="direct-illumination">
+  Direct Illumination
+  <button class="anchor-copy" data-anchor="direct-illumination">#</button>
+</h2>
 
 <p>Direct illumination computes light that travels in an unobstructed straight line from an emitter (eg. light source) directly to a surface and reflects toward the observer. This represents a 
 <strong>single bounce</strong> of light transport.</p>
@@ -213,7 +219,10 @@ L_o(x, \omega_o) = L_e(x, \omega_o) + \sum_{k=1}^{N} f_r(x, l_k, \omega_o) C_k V
 account for light that bounces off other surfaces so it misses indirect illumination, color bleeding and ambient (indirect) shadows and
 leaving areas with no light pitch black.</p>
 
-<h2 id="indirect-illumination">Indirect Illumination</h2>
+<h2 id="indirect-illumination">
+  Indirect Illumination
+  <button class="anchor-copy" data-anchor="indirect-illumination">#</button>
+</h2>
 <p>Indirect Illumination accounts for all light arriving at a surface after it was bounced off <strong>1 or more other surfaces</strong> before reaching the POI. Unlike DI, indirect illumination
 provides ambient lighting, contact shadows, color bleeding, caustics, glossy reflections. Because GI is made of direct and indirect light we can split \(L_i(x, \omega_i)\) into:</p>
 
