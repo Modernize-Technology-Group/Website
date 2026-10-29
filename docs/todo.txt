@@ -3,8 +3,6 @@
 
 Mobile:
     Fix tables and latex equations overflow screen
+    Fix anchor copy buttons too small (may be because of screen overflow)
     Add a way to go back to main index.html
     Add a button that floats on top to jump back to the start of the page
-
-Misc:
-    Add CSS for buttons inline with <h2> to copy guide segment anchor links (URL#TagID)

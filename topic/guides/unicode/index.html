@@ -52,7 +52,10 @@
 
     
     
-    <h2 id="introduction">Introduction</h2>
+    <h2 id="introduction">
+        Introduction
+        <button class="anchor-copy" data-anchor="introduction">#</button>
+    </h2>
     <p>This guide will explain:</p>
     <ol>
         <li>The terminology required to learn and use Unicode.</li>
@@ -73,7 +76,10 @@
 
     
     
-    <h2 id="terminology">Terminology</h2>
+    <h2 id="terminology">
+        Terminology
+        <button class="anchor-copy" data-anchor="terminology">#</button>
+    </h2>
     <ul>
         <li>
             Encoding:
@@ -132,7 +138,10 @@
 
 
 
-    <h2 id="encoding-formats">Encoding Formats</h2>
+    <h2 id="encoding-formats">
+        Encoding Formats
+        <button class="anchor-copy" data-anchor="encoding-formats">#</button>
+    </h2>
     <p>The commonly used encoding formats are:</p>
     <ul>
         <li>
@@ -195,7 +204,10 @@
         </li>
     </ul>
     
-    <h2 id="encoding-formats-UTF-32">UTF-32</h2>
+    <h2 id="encoding-formats-UTF-32">
+        UTF-32
+        <button class="anchor-copy" data-anchor="encoding-formats-UTF-32">#</button>
+    </h2>
     <p>
         A UTF-32 code unit contains the exact same value
         as a Unicode code point in 32 bits.
@@ -222,7 +234,10 @@
         to solve this problem.
     </p>
 
-    <h2 id="encoding-formats-UTF-16">UTF-16</h2>
+    <h2 id="encoding-formats-UTF-16">
+        UTF-16
+        <button class="anchor-copy" data-anchor="encoding-formats-UTF-16">#</button>
+    </h2>
     <p>
         A UTF-16 encoded code point consists of either one or two 16-bit code units.
         <br><br>
@@ -250,7 +265,10 @@
         in a little-endian format its bytes are {FF, FE}.
     </p>
 
-    <h2 id="encoding-formats-UTF-8">UTF-8</h2>
+    <h2 id="encoding-formats-UTF-8">
+        UTF-8
+        <button class="anchor-copy" data-anchor="encoding-formats-UTF-8">#</button>
+    </h2>
     <p>
         A UTF-8 encoded code point consists of one, two, three, or four 8-bit code units.
         <br>
@@ -312,7 +330,10 @@
     <p>UTF-8 also has a limit of 21 code point bits.</p>
     <p>Specific algorithms mentioned later are used to encode and decode UTF-8 code points.</p>
 
-    <h2 id="encoding-formats-examples">Examples</h2>
+    <h2 id="encoding-formats-examples">
+        Examples
+        <button class="anchor-copy" data-anchor="encoding-formats-examples">#</button>
+    </h2>
     <p>The character "Q" is registered as the code point U+0051:</p>
     <ul>
         <li>In UTF-32, it's encoded as 0x00000051.</li>
@@ -351,7 +372,10 @@
 
 
 
-    <h2 id="encoding-conversion">Conversion between Encoding Formats</h2>
+    <h2 id="encoding-conversion">
+        Conversion between Encoding Formats
+        <button class="anchor-copy" data-anchor="encoding-conversion">#</button>
+    </h2>
     <p>
         In this document, saying "converting UTF-32" to UTF-16 or UTF-8 has the the same meaning
         as saying "encoding a code point" in those two encodings,
@@ -371,7 +395,10 @@
         the reader should implement their own algorithms that suit their goals.
     </p>
 
-    <h2 id="encoding-conversion-UTF-32-16">UTF-32 to UTF-16</h2>
+    <h2 id="encoding-conversion-UTF-32-16">
+        UTF-32 to UTF-16
+        <button class="anchor-copy" data-anchor="encoding-conversion-UTF-32-16">#</button>
+    </h2>
     <p>
         If the code point is in the BMP (from U+0000 up to U+FFFF), it's simply encoded as a 16-bit integer with the same value.
         If the code point is outside the BMP (U+10000 and above), the following must be done to encode it as a UTF-16 surrogate pair:
@@ -392,7 +419,10 @@
     </ul>
     <code data-file="./res/code/utf32_to_16.c"></code>
     
-    <h2 id="encoding-conversion-UTF-16-32">UTF-16 to UTF-32</h2>
+    <h2 id="encoding-conversion-UTF-16-32">
+        UTF-16 to UTF-32
+        <button class="anchor-copy" data-anchor="encoding-conversion-UTF-16-32">#</button>
+    </h2>
     <p>
         Decoding UTF-16 code points (or converting them to UTF-32) is the opposite of encoding:
         If the code point is in the BMP (one UTF-16 code unit), it's simply expanded to 32-bits.
@@ -406,7 +436,10 @@
     </ul>
     <code data-file="./res/code/utf16_to_32.c"></code>
 
-    <h2 id="encoding-conversion-UTF-32-8">UTF-32 to UTF-8</h2>
+    <h2 id="encoding-conversion-UTF-32-8">
+        UTF-32 to UTF-8
+        <button class="anchor-copy" data-anchor="encoding-conversion-UTF-32-8">#</button>
+    </h2>
     <p>
         The structure of a UTF-8 encoded code point is similar to the bytes
         of a big-endian integer containing the code point value,
@@ -487,7 +520,10 @@
     </table>
     <code data-file="./res/code/utf32_to_8.c"></code>
 
-    <h2 id="encoding-conversion-UTF-8-32">UTF-8 to UTF-32</h2>
+    <h2 id="encoding-conversion-UTF-8-32">
+        UTF-8 to UTF-32
+        <button class="anchor-copy" data-anchor="encoding-conversion-UTF-8-32">#</button>
+    </h2>
     <p>
         Decoding UTF-8 code points (or converting them to UTF-32) is the opposite of encoding:
         The length of the UTF-8 code point is determined by the bit prefix pattern,

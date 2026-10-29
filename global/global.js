@@ -38,6 +38,8 @@ async function processCodeTags()
         {
             const extension = filePath.split('.').pop();
             // Adds the class "language-<file extension>" for highlightjs
+            //   **NOTE**: HLJS requires full language name, this only works for C
+            //             so make a string->string map when we get non-C code
             codeTag.classList.add(`language-${extension}`);
             // Set text content to code from specified file
             try
@@ -64,6 +66,13 @@ async function processCodeTags()
 }
 // Run when the page loads
 processCodeTags();
+
+// Set copied URL for buttons that copy anchor URL
+document.querySelectorAll(".anchor-copy").forEach(element => {
+    element.addEventListener("click", () => {
+        navigator.clipboard.writeText(window.location.href.split("#")[0] +"#" +element.dataset.anchor);
+    });
+});
 
 
 

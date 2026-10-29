@@ -92,6 +92,24 @@ select
     color: #e7e7e7;
     border-radius: 12px;
 }
+.anchor-copy
+{
+    font-family: LoraMedium;
+    padding-top: 0.4%;
+    padding-bottom: 0.4%;
+    padding-left: 0.6%;
+    padding-right: 0.6%;
+    background-color: #1c4069;
+    color: #e7e7e7;
+    border-radius: 5px;
+    border: none;
+    margin-left: 0.5em;
+    cursor: pointer;
+}
+.anchor-copy:active
+{
+    background-color: #1094b8;
+}
 a:link
 {
     color: rgb(0, 209, 209);
