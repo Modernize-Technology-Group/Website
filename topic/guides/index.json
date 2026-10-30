@@ -13,10 +13,9 @@
         "author": "Vule",
         "title": "Global Illumination Guide",
         "desc": [
-            "Work in progress guide explaining global illumination in Computer Graphics."
+            "Guide explaining Global Illumination in Computer Graphics."
         ],
-        "url": "",
-        "date": "17/10/2026",
-        "wip": true
+        "url": "graphics/gi/index.html",
+        "date": "21/10/2026"
     }
 ]}
