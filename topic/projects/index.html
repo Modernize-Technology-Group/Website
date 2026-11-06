@@ -37,10 +37,14 @@
 
     <ul id="json-list"></ul>
     <script type="module">
-        import { loadList, sortList } from "../../global/lists.js";
-        loadList("./index.json", "repository", true);
-        document.getElementById("sort-source").addEventListener("change", sortList);
-        document.getElementById("sort-ascending").addEventListener("change", sortList);
+        // import { loadList, sortList } from "../../global/lists.js";
+        // loadList("./index.json", "repository", true);
+        // document.getElementById("sort-source").addEventListener("change", sortList);
+        // document.getElementById("sort-ascending").addEventListener("change", sortList);
+        
+        document.querySelector("ul").innerHTML = `
+            <li>There are no currently published projects.</li>
+        `;
     </script>
 </main>
 

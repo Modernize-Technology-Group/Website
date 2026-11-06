@@ -9,10 +9,15 @@
 //     <a class="header-button" href="/topic/guides/index.html">Guides</a>
 //     `;
 
-// Set footer
+// Set footer (**MUST BE UPDATED ANNUALLY**)
 const footer = document.querySelector('footer')
-if (footer) footer.textContent = 
-    "© " + new Date().getFullYear() + " Modernize Technology Group. All rights reserved.";
+if (footer)
+{
+    footer.textContent =
+        "© 2026 Modernize Technology Group. All rights reserved."
+    // footer.textContent =
+    //     "© 2026-2027 Modernize Technology Group. All rights reserved.";
+}
 
 // - Surrounds <code> by <pre>
 // - If <code> has data-file attribute:
